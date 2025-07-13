@@ -1,0 +1,246 @@
+.leetcode-tracker {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.tracker-header {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.header-content {
+  margin-bottom: 24px;
+}
+
+.tracker-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.title-icon {
+  font-size: 36px;
+}
+
+.tracker-subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #7f8c8d;
+  line-height: 1.5;
+}
+
+.source-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.source-link:hover {
+  color: #5a6fd8;
+  text-decoration: underline;
+}
+
+.overall-progress {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+}
+
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.progress-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.progress-numbers {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.overall-progress-bar {
+  flex: 1;
+  height: 12px;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.overall-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.progress-percentage {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* 详细统计信息样式 */
+.detailed-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* 存储警告样式 */
+.storage-warning {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: #856404;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+}
+
+.tracker-controls {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.control-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+}
+
+.reset-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+.reset-btn:hover {
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+.tracker-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tracker-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .leetcode-tracker {
+    padding: 12px;
+  }
+  
+  .tracker-header {
+    padding: 20px;
+  }
+  
+  .tracker-title {
+    font-size: 24px;
+  }
+  
+  .title-icon {
+    font-size: 28px;
+  }
+  
+  .overall-progress {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .progress-info {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .control-buttons {
+    justify-content: center;
+  }
+  
+  .control-btn {
+    flex: 1;
+    min-width: 120px;
+  }
+} 
