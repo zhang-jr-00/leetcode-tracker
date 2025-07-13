@@ -12,14 +12,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(90deg, #e8f5e8 0%, #e3f2fd 100%);
+  color: #333;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .chapter-header:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  background: linear-gradient(90deg, #d4edda 0%, #cce7f3 100%);
 }
 
 .chapter-title-section {
@@ -31,7 +31,7 @@
 .expand-button {
   background: none;
   border: none;
-  color: white;
+  color: #333;
   font-size: 16px;
   cursor: pointer;
   padding: 4px;
@@ -40,7 +40,7 @@
 }
 
 .expand-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .chapter-title {
@@ -72,7 +72,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  background: linear-gradient(90deg, #4caf50 0%, #2196f3 100%);
   border-radius: 4px;
   transition: width 0.3s ease;
 }

@@ -242,105 +242,121 @@ const LeetCodeTracker: React.FC = () => {
 
   return (
     <div className="leetcode-tracker">
-      <header className="tracker-header">
-        <div className="header-content">
-          <h1 className="tracker-title">
-            <span className="title-icon">📚</span>
-            LeetCode 刷题进度跟踪器
-          </h1>
-          <p className="tracker-subtitle">
-            跟随 <a 
-              href="https://programmercarl.com/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="source-link"
-            >
-              programmercarl.com
-            </a> 学习算法
-          </p>
-        </div>
-        
-        <div className="overall-progress">
-          <div className="progress-info">
-            <span className="progress-label">总体进度</span>
-            <span className="progress-numbers">
-              {stats.completedSections}/{stats.totalSections}
-            </span>
+      <div className="tracker-container">
+        <header className="tracker-header">
+          <div className="header-content">
+            <h1 className="tracker-title">
+              <span className="title-icon">📚</span>
+              LeetCode 刷题进度跟踪器
+            </h1>
+            <p className="tracker-subtitle">
+              跟随 <a 
+                href="https://programmercarl.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="source-link"
+              >
+                programmercarl.com
+              </a> 学习算法
+            </p>
           </div>
-          <div className="overall-progress-bar">
-            <div 
-              className="overall-progress-fill" 
-              style={{ width: `${stats.completionRate}%` }}
-            ></div>
+          
+          {/* 进度统计卡片 */}
+          <div className="progress-stats-card">
+            <div className="progress-stats-header">
+              <div className="progress-stats-title">
+                <span className="stats-icon">📊</span>
+                <span className="stats-title">学习进度</span>
+              </div>
+            </div>
+            <div className="progress-stats-content">
+              <div className="overall-progress">
+                <div className="progress-info">
+                  <span className="progress-label">总体进度</span>
+                  <span className="progress-numbers">
+                    {stats.completedSections}/{stats.totalSections}
+                  </span>
+                </div>
+                <div className="overall-progress-bar">
+                  <div 
+                    className="overall-progress-fill" 
+                    style={{ width: `${stats.completionRate}%` }}
+                  ></div>
+                </div>
+                <span className="progress-percentage">
+                  {stats.completionRate}%
+                </span>
+              </div>
+
+              {/* 详细统计信息 */}
+              <div className="detailed-stats">
+                <div className="stat-item">
+                  <span className="stat-label">练习题:</span>
+                  <span className="stat-value">{stats.completedExercises}/{stats.totalExercises}</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-label">教程:</span>
+                  <span className="stat-value">{stats.completedTutorials}/{stats.totalTutorials}</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <span className="progress-percentage">
-            {stats.completionRate}%
-          </span>
-        </div>
 
-        {/* 详细统计信息 */}
-        <div className="detailed-stats">
-          <div className="stat-item">
-            <span className="stat-label">练习题:</span>
-            <span className="stat-value">{stats.completedExercises}/{stats.totalExercises}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">教程:</span>
-            <span className="stat-value">{stats.completedTutorials}/{stats.totalTutorials}</span>
-          </div>
-        </div>
-
-        {/* 收藏的小节 */}
-        <LikedSubSections
-          likedSubSections={likedSubSections}
-          onUnlike={handleUnlike}
-          onEditComment={handleEditLikedComment}
-        />
-      </header>
-
-      {!storageAvailable && (
-        <div className="storage-warning">
-          ⚠️ 本地存储不可用，进度将无法保存
-        </div>
-      )}
-
-      <div className="tracker-controls">
-        <div className="control-buttons">
-          <button onClick={handleExpandAll} className="control-btn">
-            展开全部
-          </button>
-          <button onClick={handleCollapseAll} className="control-btn">
-            折叠全部
-          </button>
-          <button onClick={handleResetProgress} className="control-btn reset-btn">
-            重置进度
-          </button>
-        </div>
-      </div>
-
-      <main className="tracker-content">
-        {chapters.map(chapter => (
-          <Chapter
-            key={chapter.id}
-            chapter={chapter}
-            onToggleExpand={handleToggleExpand}
-            onToggleSubSection={handleToggleSubSection}
-            onToggleLike={handleToggleLike}
-            onEditComment={handleEditComment}
+          {/* 收藏的小节 */}
+          <LikedSubSections
+            likedSubSections={likedSubSections}
+            onUnlike={handleUnlike}
+            onEditComment={handleEditLikedComment}
           />
-        ))}
-      </main>
+        </header>
 
-      {/* 数据管理组件 */}
-      <DataManager onDataImported={handleDataImported} />
+        {!storageAvailable && (
+          <div className="storage-warning">
+            ⚠️ 本地存储不可用，进度将无法保存
+          </div>
+        )}
 
-      <footer className="tracker-footer">
-        <p>
-          进度自动保存到本地存储 • 
-          最后更新: {lastSaved.toLocaleString('zh-CN')}
-          {storageAvailable ? ' • 存储状态: 正常' : ' • 存储状态: 不可用'}
-        </p>
-      </footer>
+        <main className="tracker-content">
+          <div className="content-header">
+            <h2 className="content-title">学习章节</h2>
+            <div className="control-buttons">
+              <button onClick={handleExpandAll} className="control-btn">
+                展开全部
+              </button>
+              <button onClick={handleCollapseAll} className="control-btn">
+                折叠全部
+              </button>
+              <button onClick={handleResetProgress} className="control-btn reset-btn">
+                重置进度
+              </button>
+            </div>
+          </div>
+          
+          <div className="chapters-container">
+            {chapters.map(chapter => (
+              <Chapter
+                key={chapter.id}
+                chapter={chapter}
+                onToggleExpand={handleToggleExpand}
+                onToggleSubSection={handleToggleSubSection}
+                onToggleLike={handleToggleLike}
+                onEditComment={handleEditComment}
+              />
+            ))}
+          </div>
+        </main>
+
+        {/* 数据管理组件 */}
+        <DataManager onDataImported={handleDataImported} />
+
+        <footer className="tracker-footer">
+          <p>
+            进度自动保存到本地存储 • 
+            最后更新: {lastSaved.toLocaleString('zh-CN')}
+            {storageAvailable ? ' • 存储状态: 正常' : ' • 存储状态: 不可用'}
+          </p>
+        </footer>
+      </div>
     </div>
   );
 };
