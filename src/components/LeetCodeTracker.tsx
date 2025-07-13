@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Chapter as ChapterType, ProgressData } from '../types';
+import { Chapter as ChapterType, ProgressData, LikedSubSection } from '../types';
 import { initialChapters } from '../data/initialData';
 import { 
   saveProgress, 
   loadProgress, 
   clearProgress, 
   updateSubSectionProgress,
+  updateSubSectionLike,
+  updateSubSectionComment,
   getProgressStats,
+  getLikedSubSections,
   isLocalStorageAvailable
 } from '../utils/storage';
 import Chapter from './Chapter';
+import LikedSubSections from './LikedSubSections';
+import DataManager from './DataManager';
 import './LeetCodeTracker.css';
 
 const LeetCodeTracker: React.FC = () => {
@@ -41,7 +46,10 @@ const LeetCodeTracker: React.FC = () => {
                 return savedSub ? {
                   ...initialSub,
                   completed: savedSub.completed,
-                  completedDate: savedSub.completedDate
+                  completedDate: savedSub.completedDate,
+                  liked: savedSub.liked,
+                  comment: savedSub.comment,
+                  likedDate: savedSub.likedDate
                 } : initialSub;
               })
             };
@@ -121,6 +129,69 @@ const LeetCodeTracker: React.FC = () => {
     });
   };
 
+  const handleToggleLike = (chapterId: string, subSectionId: string) => {
+    setChapters(prevChapters => {
+      const currentSubSection = prevChapters
+        .find(ch => ch.id === chapterId)
+        ?.subSections.find(sub => sub.id === subSectionId);
+      
+      const newLiked = !currentSubSection?.liked;
+      
+      return updateSubSectionLike(
+        prevChapters,
+        chapterId,
+        subSectionId,
+        newLiked
+      );
+    });
+  };
+
+  const handleEditComment = (chapterId: string, subSectionId: string, comment: string) => {
+    setChapters(prevChapters => {
+      return updateSubSectionComment(
+        prevChapters,
+        chapterId,
+        subSectionId,
+        comment
+      );
+    });
+  };
+
+  const handleUnlike = (subSectionId: string) => {
+    setChapters(prevChapters => {
+      return prevChapters.map(chapter => ({
+        ...chapter,
+        subSections: chapter.subSections.map(subSection => {
+          if (subSection.id === subSectionId) {
+            return {
+              ...subSection,
+              liked: false,
+              likedDate: undefined
+            };
+          }
+          return subSection;
+        })
+      }));
+    });
+  };
+
+  const handleEditLikedComment = (subSectionId: string, comment: string) => {
+    setChapters(prevChapters => {
+      return prevChapters.map(chapter => ({
+        ...chapter,
+        subSections: chapter.subSections.map(subSection => {
+          if (subSection.id === subSectionId) {
+            return {
+              ...subSection,
+              comment: comment || undefined
+            };
+          }
+          return subSection;
+        })
+      }));
+    });
+  };
+
   const handleResetProgress = () => {
     if (window.confirm('确定要重置所有进度吗？此操作不可撤销。')) {
       setChapters(initialChapters);
@@ -141,8 +212,16 @@ const LeetCodeTracker: React.FC = () => {
     );
   };
 
+  const handleDataImported = () => {
+    // 数据导入后重新加载
+    loadSavedProgress();
+  };
+
   // 获取详细的进度统计
   const stats = getProgressStats(chapters);
+  
+  // 获取收藏的小节
+  const likedSubSections = getLikedSubSections(chapters);
 
   if (isLoading) {
     return (
@@ -210,6 +289,13 @@ const LeetCodeTracker: React.FC = () => {
             <span className="stat-value">{stats.completedTutorials}/{stats.totalTutorials}</span>
           </div>
         </div>
+
+        {/* 收藏的小节 */}
+        <LikedSubSections
+          likedSubSections={likedSubSections}
+          onUnlike={handleUnlike}
+          onEditComment={handleEditLikedComment}
+        />
       </header>
 
       {!storageAvailable && (
@@ -239,9 +325,14 @@ const LeetCodeTracker: React.FC = () => {
             chapter={chapter}
             onToggleExpand={handleToggleExpand}
             onToggleSubSection={handleToggleSubSection}
+            onToggleLike={handleToggleLike}
+            onEditComment={handleEditComment}
           />
         ))}
       </main>
+
+      {/* 数据管理组件 */}
+      <DataManager onDataImported={handleDataImported} />
 
       <footer className="tracker-footer">
         <p>

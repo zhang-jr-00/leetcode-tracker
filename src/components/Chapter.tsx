@@ -7,12 +7,16 @@ interface ChapterProps {
   chapter: ChapterType;
   onToggleExpand: (id: string) => void;
   onToggleSubSection: (chapterId: string, subSectionId: string) => void;
+  onToggleLike: (chapterId: string, subSectionId: string) => void;
+  onEditComment: (chapterId: string, subSectionId: string, comment: string) => void;
 }
 
 const Chapter: React.FC<ChapterProps> = ({ 
   chapter, 
   onToggleExpand, 
-  onToggleSubSection 
+  onToggleSubSection,
+  onToggleLike,
+  onEditComment
 }) => {
   const completedCount = chapter.subSections.filter(sub => sub.completed).length;
   const totalCount = chapter.subSections.length;
@@ -24,6 +28,14 @@ const Chapter: React.FC<ChapterProps> = ({
 
   const handleToggleSubSection = (subSectionId: string) => {
     onToggleSubSection(chapter.id, subSectionId);
+  };
+
+  const handleToggleLike = (subSectionId: string) => {
+    onToggleLike(chapter.id, subSectionId);
+  };
+
+  const handleEditComment = (subSectionId: string, comment: string) => {
+    onEditComment(chapter.id, subSectionId, comment);
   };
 
   return (
@@ -55,6 +67,8 @@ const Chapter: React.FC<ChapterProps> = ({
               key={subSection.id}
               subSection={subSection}
               onToggleComplete={handleToggleSubSection}
+              onToggleLike={handleToggleLike}
+              onEditComment={handleEditComment}
             />
           ))}
         </div>

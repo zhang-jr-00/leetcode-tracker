@@ -1,4 +1,4 @@
-import { ProgressData, Chapter, LocalStorageData } from '../types';
+import { ProgressData, Chapter, LocalStorageData, LikedSubSection } from '../types';
 
 const STORAGE_KEY = 'leetcode-progress';
 const CURRENT_VERSION = '1.0.0';
@@ -77,6 +77,85 @@ export const updateSubSectionProgress = (
   });
 };
 
+// 更新小节的收藏状态
+export const updateSubSectionLike = (
+  chapters: Chapter[],
+  chapterId: string,
+  subSectionId: string,
+  liked: boolean
+): Chapter[] => {
+  return chapters.map(chapter => {
+    if (chapter.id === chapterId) {
+      return {
+        ...chapter,
+        subSections: chapter.subSections.map(subSection => {
+          if (subSection.id === subSectionId) {
+            return {
+              ...subSection,
+              liked,
+              likedDate: liked ? new Date().toISOString() : undefined
+            };
+          }
+          return subSection;
+        })
+      };
+    }
+    return chapter;
+  });
+};
+
+// 更新小节的备注
+export const updateSubSectionComment = (
+  chapters: Chapter[],
+  chapterId: string,
+  subSectionId: string,
+  comment: string
+): Chapter[] => {
+  return chapters.map(chapter => {
+    if (chapter.id === chapterId) {
+      return {
+        ...chapter,
+        subSections: chapter.subSections.map(subSection => {
+          if (subSection.id === subSectionId) {
+            return {
+              ...subSection,
+              comment: comment || undefined
+            };
+          }
+          return subSection;
+        })
+      };
+    }
+    return chapter;
+  });
+};
+
+// 获取所有收藏的小节
+export const getLikedSubSections = (chapters: Chapter[]): LikedSubSection[] => {
+  const likedSubSections: LikedSubSection[] = [];
+  
+  chapters.forEach(chapter => {
+    chapter.subSections.forEach(subSection => {
+      if (subSection.liked) {
+        likedSubSections.push({
+          id: subSection.id,
+          chapterId: chapter.id,
+          chapterTitle: chapter.title,
+          title: subSection.title,
+          type: subSection.type,
+          comment: subSection.comment,
+          likedDate: subSection.likedDate || new Date().toISOString()
+        });
+      }
+    });
+  });
+  
+  // 按收藏时间倒序排列
+  return likedSubSections.sort((a, b) => 
+    new Date(b.likedDate).getTime() - new Date(a.likedDate).getTime()
+  );
+};
+
 // 更新章节展开状态
 export const updateChapterExpanded = (
   chapters: Chapter[],
@@ -151,7 +230,23 @@ export const exportProgress = (): string => {
     if (!data) {
       throw new Error('没有可导出的数据');
     }
-    return JSON.stringify(data, null, 2);
+    
+    // 创建包含版本信息的完整数据结构
+    const exportData: LocalStorageData = {
+      progress: data,
+      version: CURRENT_VERSION,
+      exportDate: new Date().toISOString(),
+      exportInfo: {
+        totalChapters: data.chapters.length,
+        totalSubSections: data.chapters.reduce((sum, ch) => sum + ch.subSections.length, 0),
+        completedSections: data.chapters.reduce((sum, ch) => 
+          sum + ch.subSections.filter(sub => sub.completed).length, 0),
+        likedSections: data.chapters.reduce((sum, ch) => 
+          sum + ch.subSections.filter(sub => sub.liked).length, 0)
+      }
+    };
+    
+    return JSON.stringify(exportData, null, 2);
   } catch (error) {
     console.error('导出数据失败:', error);
     throw error;
@@ -161,15 +256,32 @@ export const exportProgress = (): string => {
 // 导入数据（用于恢复）
 export const importProgress = (jsonData: string): boolean => {
   try {
-    const data = JSON.parse(jsonData);
-    if (!data.chapters) {
+    const parsed = JSON.parse(jsonData);
+    
+    // 处理不同的数据格式
+    let progressData: ProgressData;
+    
+    if (parsed.progress && parsed.version) {
+      // 新版本格式（包含版本信息）
+      progressData = parsed.progress;
+    } else if (parsed.chapters) {
+      // 旧版本格式（直接包含章节数据）
+      progressData = parsed;
+    } else {
       throw new Error('数据格式不正确');
     }
-    saveProgress(data);
+    
+    // 验证数据结构
+    if (!progressData.chapters || !Array.isArray(progressData.chapters)) {
+      throw new Error('数据格式不正确：缺少章节数据');
+    }
+    
+    // 保存到本地存储
+    saveProgress(progressData);
     return true;
   } catch (error) {
     console.error('导入数据失败:', error);
-    return false;
+    throw error;
   }
 };
 

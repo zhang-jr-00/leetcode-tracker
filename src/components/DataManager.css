@@ -1,0 +1,151 @@
+.data-manager {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.data-manager-header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.data-manager-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 0 0 8px 0;
+  display: inline-block;
+}
+
+.data-manager-subtitle {
+  font-size: 14px;
+  color: #555;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin: 0;
+  display: inline-block;
+}
+
+.data-manager-info {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.storage-info {
+  font-size: 13px;
+  color: #555;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.data-manager-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.data-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.export-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.import-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.import-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
+}
+
+.data-manager-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tip-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid #ffa726;
+}
+
+.tip-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tip-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+  flex: 1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .data-manager {
+    padding: 16px;
+    margin: 16px 0;
+  }
+  
+  .data-manager-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .data-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .tip-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .tip-icon {
+    align-self: flex-start;
+  }
+} 

@@ -33,10 +33,56 @@
   gap: 4px;
 }
 
+.subsection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
 .subsection-title {
   font-size: 14px;
   color: #333;
   font-weight: 500;
+  flex: 1;
+}
+
+.subsection-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.like-btn, .comment-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.like-btn:hover, .comment-btn:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.like-btn.liked {
+  opacity: 1;
+  animation: heartBeat 0.3s ease-in-out;
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 .subsection-meta {
@@ -66,10 +112,36 @@
   color: #7b1fa2;
 }
 
-.completion-date {
+.completion-date, .liked-date {
   font-size: 12px;
   color: #666;
   font-style: italic;
+}
+
+.subsection-comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+  margin-top: 4px;
+}
+
+.comment-label {
+  font-size: 12px;
+  color: #667eea;
+  font-weight: 500;
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.comment-text {
+  flex: 1;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .subsection.completed .subsection-title {
@@ -86,6 +158,11 @@
   font-weight: 500;
 }
 
+.subsection.liked .liked-date {
+  color: #e91e63;
+  font-weight: 500;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .subsection-meta {
@@ -94,7 +171,23 @@
     gap: 4px;
   }
   
-  .completion-date {
+  .completion-date, .liked-date {
     font-size: 11px;
+  }
+  
+  .subsection-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .subsection-actions {
+    align-self: flex-end;
+  }
+  
+  .subsection-comment {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 } 

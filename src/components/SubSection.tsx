@@ -5,11 +5,29 @@ import './SubSection.css';
 interface SubSectionProps {
   subSection: SubSectionType;
   onToggleComplete: (id: string) => void;
+  onToggleLike: (id: string) => void;
+  onEditComment: (id: string, comment: string) => void;
 }
 
-const SubSection: React.FC<SubSectionProps> = ({ subSection, onToggleComplete }) => {
+const SubSection: React.FC<SubSectionProps> = ({ 
+  subSection, 
+  onToggleComplete, 
+  onToggleLike,
+  onEditComment 
+}) => {
   const handleCheckboxChange = () => {
     onToggleComplete(subSection.id);
+  };
+
+  const handleLikeClick = () => {
+    onToggleLike(subSection.id);
+  };
+
+  const handleCommentClick = () => {
+    const comment = prompt('添加备注:', subSection.comment || '');
+    if (comment !== null) {
+      onEditComment(subSection.id, comment);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -37,7 +55,25 @@ const SubSection: React.FC<SubSectionProps> = ({ subSection, onToggleComplete })
           className="subsection-checkbox"
         />
         <div className="subsection-content">
-          <span className="subsection-title">{subSection.title}</span>
+          <div className="subsection-header">
+            <span className="subsection-title">{subSection.title}</span>
+            <div className="subsection-actions">
+              <button
+                className={`like-btn ${subSection.liked ? 'liked' : ''}`}
+                onClick={handleLikeClick}
+                title={subSection.liked ? '取消收藏' : '收藏'}
+              >
+                {subSection.liked ? '❤️' : '🤍'}
+              </button>
+              <button
+                className="comment-btn"
+                onClick={handleCommentClick}
+                title="添加备注"
+              >
+                💬
+              </button>
+            </div>
+          </div>
           <div className="subsection-meta">
             <span className={`subsection-type ${subSection.type}`}>
               {subSection.type === 'tutorial' ? '教程' : '习题'}
@@ -47,7 +83,18 @@ const SubSection: React.FC<SubSectionProps> = ({ subSection, onToggleComplete })
                 完成于: {formatDate(subSection.completedDate)}
               </span>
             )}
+            {subSection.liked && subSection.likedDate && (
+              <span className="liked-date">
+                收藏于: {formatDate(subSection.likedDate)}
+              </span>
+            )}
           </div>
+          {subSection.comment && (
+            <div className="subsection-comment">
+              <span className="comment-label">备注:</span>
+              <span className="comment-text">{subSection.comment}</span>
+            </div>
+          )}
         </div>
       </label>
     </div>
