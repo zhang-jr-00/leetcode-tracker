@@ -256,8 +256,8 @@ const LeetCodeTracker: React.FC = () => {
                 rel="noopener noreferrer"
                 className="source-link"
               >
-                programmercarl.com
-              </a> 学习算法
+                代码随想录
+              </a> 刷leetcode
             </p>
           </div>
           

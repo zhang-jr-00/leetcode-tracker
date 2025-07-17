@@ -1,10 +1,10 @@
 # LeetCode 刷题进度跟踪器
 
-一个基于 React 和 TypeScript 构建的 LeetCode 刷题进度跟踪应用，专门为跟随 [programmercarl.com](https://programmercarl.com/) 学习算法的用户设计。
+一个基于 React 和 TypeScript 构建的 LeetCode 刷题进度跟踪应用，专门为跟随 [代码随想录](https://programmercarl.com/) 学习算法的用户设计。
 
 ## ✨ 功能特性
 
-- 📚 **完整的章节结构**: 包含 programmercarl.com 的所有主要章节
+- 📚 **完整的章节结构**: 包含代码随想录的所有主要章节
 - 🎯 **分类显示**: 教程和习题用不同颜色区分（蓝色教程，紫色习题）
 - ✅ **进度跟踪**: 可以勾选完成的小节，自动计算进度
 - 📊 **可视化进度**: 每个章节和总体都有进度条显示
@@ -64,7 +64,7 @@ npm run build
 - **重置进度**: 清除所有完成标记（需要确认）
 
 ### 章节结构
-应用包含以下主要章节（严格按照 programmercarl.com 结构）：
+应用包含以下主要章节（严格按照代码随想录结构）：
 - 数组
 - 链表
 - 哈希表
